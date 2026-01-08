@@ -1,3 +1,5 @@
+# This shows how to force an LLM to generate a PIC-compliant contract using LangChain's structured output.
+
 from langchain_openai import ChatOpenAI
 from langchain_core.pydantic_v1 import BaseModel, Field
 from typing import List
