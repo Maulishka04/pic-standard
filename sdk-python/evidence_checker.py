@@ -1,3 +1,5 @@
+# This addresses your request for an "Evidence System." It simulates verifying a bank balance or a PGP signature.
+
 import hashlib
 
 class PIC_EvidenceSystem:
