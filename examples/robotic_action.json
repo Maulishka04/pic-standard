@@ -1,0 +1,17 @@
+{
+  "protocol": "PIC/1.0",
+  "intent": "Initialize emergency shutdown of industrial arm.",
+  "impact": "irreversible",
+  "provenance": [
+    { "id": "lidar_safety_trigger", "trust": "trusted" },
+    { "id": "operator_voice_command", "trust": "semi_trusted" }
+  ],
+  "claims": [
+    { "text": "LIDAR detected obstacle within 0.5m hazard zone", "evidence": ["lidar_safety_trigger"] },
+    { "text": "Operator shouted 'Emergency Stop'", "evidence": ["operator_voice_command"] }
+  ],
+  "action": {
+    "tool": "abb_arm.halt",
+    "args": { "mode": "hard_stop", "engage_brakes": true }
+  }
+}
