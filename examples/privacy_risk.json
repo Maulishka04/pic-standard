@@ -1,0 +1,13 @@
+{
+  "protocol": "PIC/1.0",
+  "intent": "Sync PII to Marketing Hub",
+  "impact": "privacy",
+  "provenance": [
+    {"id": "user_email_consent", "trust": "trusted"},
+    {"id": "customer_support_chat", "trust": "untrusted"}
+  ],
+  "claims": [
+    {"text": "User provided explicit opt-in for data sync", "evidence": ["user_email_consent"]}
+  ],
+  "action": {"tool": "hubspot.sync", "args": {"field": "email", "value": "user@example.com"}}
+}
