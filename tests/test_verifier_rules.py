@@ -1,5 +1,5 @@
 import pytest
-from pic_verifier import ActionProposal
+from pic_standard import ActionProposal
 
 def test_money_requires_trusted_evidence_blocks_without_trusted():
     proposal = {
