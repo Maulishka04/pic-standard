@@ -15,6 +15,11 @@ dependencies = [
   "jsonschema>=4.0.0",
 ]
 
+[project.urls]
+Homepage = "https://github.com/madeinplutofabio/pic-standard"
+Repository = "https://github.com/madeinplutofabio/pic-standard"
+Issues = "https://github.com/madeinplutofabio/pic-standard/issues"
+
 [project.scripts]
 pic-cli = "pic_standard.cli:main"
 
