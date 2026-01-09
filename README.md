@@ -4,8 +4,81 @@
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 [![Status](https://img.shields.io/badge/Status-Draft_v1.0-orange.svg)]()
 
+---
+
+## Quickstart (60 seconds)
+
+### Option A — Install from PyPI (recommended)
+> Use this once `pic-standard` is published on PyPI.
+
+```bash
+pip install pic-standard
+```
+
+Verify an example proposal:
+
+```bash
+pic-cli verify examples/financial_irreversible.json
+```
+
+Expected output:
+
+```text
+✅ Schema valid
+✅ Verifier passed
+```
+
+Validate schema only:
+
+```bash
+pic-cli schema examples/financial_irreversible.json
+```
+
+Expected output:
+
+```text
+✅ Schema valid
+```
+
+### Option B — Install from source (dev / contributors)
+
+```bash
+git clone https://github.com/madeinplutofabio/pic-standard.git
+cd pic-standard
+pip install -e .
+pip install -r sdk-python/requirements-dev.txt
+```
+
+Run tests:
+
+```bash
+pytest -q
+```
+
+Run the CLI:
+
+```bash
+pic-cli verify examples/financial_irreversible.json
+```
+
+Expected output:
+
+```text
+✅ Schema valid
+✅ Verifier passed
+```
+
+---
+
+## Stability & Versioning
+
+- `PIC/1.0` refers to the **proposal schema protocol version**.
+- The Python package follows **Semantic Versioning**. Breaking changes will bump the major version.
+
+---
+
 ## 1. The Core Thesis: Closing the "Causal Gap"
-Traditional AI safety focuses on **Dialogue Guardrails**. However, enterprise agents operate via **Side Effects** (API calls, financial transfers). 
+Traditional AI safety focuses on **Dialogue Guardrails**. However, enterprise agents operate via **Side Effects** (API calls, financial transfers).
 
 The **Causal Gap** occurs when an agent performs a high-impact action based on instructions from an untrusted source (e.g., Indirect Prompt Injection). PIC bridges this gap by enforcing a machine-verifiable contract between **Input Provenance** and **Action Impact**.
 
@@ -36,8 +109,9 @@ graph TD
     E --> F{Valid Contract?}
     F -- Yes --> G[Tool Executor]
     F -- No --> H[Blocked / Alert Log]
-
 ```
+
+---
 
 ## 4. v1.0 Roadmap
 - [ ] Phase 1 (MVP): Standardize money and privacy Impact Classes.
@@ -45,14 +119,14 @@ graph TD
 - [ ] Phase 3 (Integrations): Native middleware for LangGraph and CrewAI.
 - [ ] Phase 4 (Advanced): Cryptographic signing for trusted provenance.
 
+---
+
 ## 🤝 Community & Governance
 The PIC Standard is an open-source movement. We are actively seeking:
 
 - Security Researchers to stress-test causal logic.
 - Framework Authors to build native PIC integrations.
 - Enterprise Architects to define domain-specific Impact Classes.
-
-
 
 Maintained by [![Linkedin](https://i.sstatic.net/gVE0j.png) @fmsalvadori](https://www.linkedin.com/in/fmsalvadori/)
 &nbsp;
