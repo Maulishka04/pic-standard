@@ -9,10 +9,9 @@
 ## Quickstart (60 seconds)
 
 ### Option A — Install from PyPI (recommended)
-> Use this once `pic-standard` is published on PyPI.
 
 ```bash
-pip install pic-standard
+pip install "pic-standard[langgraph]"
 ```
 
 Verify an example proposal:
@@ -77,6 +76,60 @@ Expected output:
 
 ---
 
+## Integrations
+
+### LangGraph (anchor integration)
+
+PIC can be enforced at the **tool boundary** using a LangGraph-compatible tool execution node.
+
+This repo provides:
+
+- `pic_standard.integrations.PICToolNode`: a drop-in tool node that
+  - requires a PIC proposal in each tool call (`args["__pic"]`)
+  - validates **schema + verifier + tool binding**
+  - blocks high-impact calls when provenance is insufficient
+  - returns `ToolMessage` outputs (LangGraph-style messages state)
+
+#### Run the demo (no install required)
+
+```bash
+pip install -r sdk-python/requirements-langgraph.txt
+python examples/langgraph_pic_toolnode_demo.py
+```
+
+Expected output:
+
+```text
+✅ blocked as expected (untrusted money)
+✅ allowed as expected (trusted money)
+```
+
+#### How it works (tool-call contract)
+
+Your agent must attach a PIC proposal under a reserved argument key:
+
+```json
+{
+  "name": "payments_send",
+  "args": {
+    "amount": 500,
+    "__pic": {
+      "protocol": "PIC/1.0",
+      "intent": "Send payment",
+      "impact": "money",
+      "provenance": [{"id": "invoice_123", "trust": "trusted"}],
+      "claims": [{"text": "Pay $500", "evidence": ["invoice_123"]}],
+      "action": {"tool": "payments_send", "args": {"amount": 500}}
+    }
+  },
+  "id": "tool_call_1"
+}
+```
+
+> Tool binding is enforced: `proposal.action.tool` must match the actual tool name (`payments_send`).
+
+---
+
 ## 1. The Core Thesis: Closing the "Causal Gap"
 Traditional AI safety focuses on **Dialogue Guardrails**. However, enterprise agents operate via **Side Effects** (API calls, financial transfers).
 
@@ -114,8 +167,8 @@ graph TD
 ---
 
 ## 4. v1.0 Roadmap
-- [ ] Phase 1 (MVP): Standardize money and privacy Impact Classes.
-- [ ] Phase 2 (SDK): Reference Python/Pydantic implementation.
+- [✅] Phase 1 (MVP): Standardize money and privacy Impact Classes.
+- [✅] Phase 2 (SDK): Reference Python/Pydantic implementation.
 - [ ] Phase 3 (Integrations): Native middleware for LangGraph and CrewAI.
 - [ ] Phase 4 (Advanced): Cryptographic signing for trusted provenance.
 
