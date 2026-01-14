@@ -17,7 +17,7 @@ def make_money_proposal(trust: str) -> dict:
         "protocol": "PIC/1.0",
         "intent": "Send payment",
         "impact": "money",
-        "provenance": [{"id": prov_id, "trust": trust}],
+        "provenance": [{"id": prov_id, "trust": trust, "source": "unit-test"}],
         "claims": [{"text": "Pay $500", "evidence": [prov_id]}],
         "action": {"tool": "payments_send", "args": {"amount": 500}},
     }

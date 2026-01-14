@@ -4,7 +4,7 @@
   "type": "object",
   "properties": {
     "protocol": { "type": "string", "const": "PIC/1.0" },
-    "intent": { "type": "string", "description": "Semantic justification for the action." },
+    "intent": { "type": "string" },
     "impact": {
       "type": "string",
       "enum": ["read", "write", "external", "irreversible", "money", "compute", "privacy"]
@@ -15,9 +15,11 @@
         "type": "object",
         "properties": {
           "id": { "type": "string" },
-          "trust": { "type": "string", "enum": ["trusted", "semi_trusted", "untrusted"] }
+          "trust": { "type": "string", "enum": ["trusted", "semi_trusted", "untrusted"] },
+          "source": { "type": "string", "description": "Optional human/debug reference to where this provenance came from." }
         },
-        "required": ["id", "trust"]
+        "required": ["id", "trust"],
+        "additionalProperties": false
       }
     },
     "claims": {
@@ -28,7 +30,8 @@
           "text": { "type": "string" },
           "evidence": { "type": "array", "items": { "type": "string" } }
         },
-        "required": ["text", "evidence"]
+        "required": ["text", "evidence"],
+        "additionalProperties": false
       }
     },
     "action": {
@@ -37,8 +40,26 @@
         "tool": { "type": "string" },
         "args": { "type": "object" }
       },
-      "required": ["tool", "args"]
+      "required": ["tool", "args"],
+      "additionalProperties": false
+    },
+    "evidence": {
+      "type": "array",
+      "description": "Optional evidence objects that can be resolved and verified deterministically (v0.3: sha256).",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "type": { "type": "string", "enum": ["hash"] },
+          "ref": { "type": "string" },
+          "sha256": { "type": "string", "pattern": "^[a-fA-F0-9]{64}$" },
+          "attestor": { "type": "string" }
+        },
+        "required": ["id", "type", "ref", "sha256"],
+        "additionalProperties": false
+      }
     }
   },
-  "required": ["protocol", "intent", "impact", "provenance", "claims", "action"]
+  "required": ["protocol", "intent", "impact", "provenance", "claims", "action"],
+  "additionalProperties": false
 }

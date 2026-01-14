@@ -1,0 +1,35 @@
+{
+    "protocol": "PIC/1.0",
+    "intent": "Send payment for approved invoice",
+    "impact": "money",
+    "provenance": [
+        {
+            "id": "invoice_123",
+            "trust": "untrusted",
+            "source": "file://artifacts/invoice_123.txt"
+        }
+    ],
+    "claims": [
+        {
+            "text": "Invoice 123 is approved for $500",
+            "evidence": [
+                "invoice_123"
+            ]
+        }
+    ],
+    "action": {
+        "tool": "payments_send",
+        "args": {
+            "amount": 500
+        }
+    },
+    "evidence": [
+        {
+            "id": "invoice_123",
+            "type": "hash",
+            "ref": "file://artifacts/invoice_123.txt",
+            "sha256": "4d021a98393dd33246437f8439ece6156b86abda5fd7a0d43dc915eda166c3c9",
+            "attestor": "local-demo"
+        }
+    ]
+}

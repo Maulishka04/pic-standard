@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 This project follows Semantic Versioning:
 https://semver.org/
 
+## [0.3.0] - 2026-01-14
+### Added
+- **Evidence verification (SHA-256)**: optional `evidence[]` objects can be resolved and verified deterministically.
+- New module: `pic_standard.evidence` with:
+  - `file://` resolver (paths resolved relative to the proposal JSON file)
+  - SHA-256 verification
+  - in-memory provenance upgrade: verified evidence IDs can upgrade `provenance[].trust` to `trusted`
+- CLI additions:
+  - `pic-cli evidence-verify <proposal.json>`
+  - `pic-cli verify <proposal.json> --verify-evidence` (fail-closed evidence gate before verifier)
+- New examples:
+  - `examples/financial_hash_ok.json`
+  - `examples/failing/financial_hash_bad.json`
+  - `examples/artifacts/invoice_123.txt`
+- Tests for evidence verification and provenance upgrade.
+
+---
+
 ## [0.2.0] - 2026-01-12
 ### Added
 - **LangGraph anchor integration**: `pic_standard.integrations.PICToolNode` for enforcing PIC at the tool boundary (schema + verifier + tool binding) and returning `ToolMessage` outputs.

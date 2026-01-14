@@ -67,6 +67,96 @@ Expected output:
 ✅ Verifier passed
 ```
 
+If you installed from source and your shell still uses an old `pic-cli`:
+
+```bash
+python -m pic_standard.cli verify examples/financial_hash_ok.json --verify-evidence
+```
+
+---
+
+## Evidence (v0.3.0): Resolvable SHA-256 artifacts
+
+PIC v0.3.0 introduces **deterministic evidence verification**: evidence IDs can point to a real artifact and be validated via **SHA-256**.
+
+### What this gives you
+
+- `evidence_id` is no longer just a label — it can be **resolved** to a file (`file://...`) and **verified**.
+- Verification is **fail-closed**: if evidence can’t be resolved or verified, high-impact actions are blocked.
+- “Trusted” becomes an **output** of verification (in-memory): verified evidence IDs upgrade `provenance[].trust` to `trusted` before the verifier runs.
+
+### Run evidence verification
+
+Verify evidence only:
+
+```bash
+pic-cli evidence-verify examples/financial_hash_ok.json
+```
+
+Expected output:
+
+```text
+✅ Schema valid
+✅ Evidence invoice_123: sha256 verified
+✅ Evidence verification passed
+```
+
+See it fail (expected):
+
+```bash
+pic-cli evidence-verify examples/failing/financial_hash_bad.json
+```
+
+Expected output:
+
+```text
+✅ Schema valid
+❌ Evidence invoice_123: sha256 mismatch (expected ..., got ...)
+❌ Evidence verification failed
+```
+
+### Gate the verifier on evidence
+
+This runs: **schema → evidence verify → upgrade provenance trust → PIC verifier**.
+
+```bash
+pic-cli verify examples/financial_hash_ok.json --verify-evidence
+```
+
+Expected output:
+
+```text
+✅ Schema valid
+✅ Verifier passed
+```
+
+And this fails closed:
+
+```bash
+pic-cli verify examples/failing/financial_hash_bad.json --verify-evidence
+```
+
+Expected output:
+
+```text
+✅ Schema valid
+❌ Evidence verification failed
+- invoice_123: sha256 mismatch (expected ..., got ...)
+```
+
+### Evidence references: `file://` is relative to the proposal file
+
+`file://artifacts/invoice_123.txt` is resolved relative to the JSON proposal directory:
+
+- `examples/financial_hash_ok.json` → `examples/artifacts/invoice_123.txt`
+- `examples/failing/financial_hash_bad.json` uses `file://../artifacts/invoice_123.txt`
+
+If you edit an artifact file, its SHA-256 changes. On Windows, recompute with:
+
+```powershell
+Get-FileHash .\examples\artifacts\invoice_123.txt -Algorithm SHA256
+```
+
 ---
 
 ## Stability & Versioning
@@ -170,7 +260,7 @@ graph TD
 - [✅] Phase 1 (MVP): Standardize money and privacy Impact Classes.
 - [✅] Phase 2 (SDK): Reference Python/Pydantic implementation.
 - [ ] Phase 3 (Integrations): Native middleware for LangGraph and CrewAI.
-- [ ] Phase 4 (Advanced): Cryptographic signing for trusted provenance.
+- [ ] Phase 4 (Advanced): Cryptographic signing for trusted provenance (v0.4+).
 
 ---
 

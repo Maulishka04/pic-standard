@@ -1,0 +1,1 @@
+INVOICE_123|amount=500|currency=USD|approved=true
