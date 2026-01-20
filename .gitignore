@@ -214,3 +214,5 @@ pic_policy.local.json
 examples/_mcp_server.log
 examples/_mcp_server_stderr.log
 
+# MCP demo venv
+.venv-mcp/
